@@ -162,6 +162,9 @@ const Nav = () => {
               <Link to="/bond" className={'navLink ' + classes.link}>
                 Bond
               </Link>
+              <Link to="/dashboard" className={'navLink ' + classes.link}>
+                Dashboard
+              </Link>
 
 
               
@@ -280,6 +283,7 @@ const Nav = () => {
                 <ListItemLink primary="xBOMB" to="/xbomb" />
                 <ListItemLink primary="Boardroom" to="/boardroom" />
                 <ListItemLink primary="Bond" to="/bond" />
+                <ListItemLink primary="Dashboard" to='/dashboard' />
                 {/* <ListItemLink primary="SBS" to="/sbs" /> */}
                 {/* <ListItemLink primary="Liquidity" to="/liquidity" /> */}
                 {/* <ListItemLink primary="Regulations" to="/regulations" /> */}
