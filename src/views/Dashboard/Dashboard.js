@@ -10,7 +10,7 @@ import BombImage from '../../assets/img/bomb.png';
 import { makeStyles } from '@material-ui/core/styles';
 import useBombFinance from '../../hooks/useBombFinance';
 import MetamaskFox from '../../assets/img/metamask-fox.svg';
-import { Box, Button, Card, CardContent, Grid, Paper } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, Paper ,Typography} from '@material-ui/core';
 import useLpStats from '../../hooks/useLpStats';
 import useLpStatsBTC from '../../hooks/useLpStatsBTC';
 import usebShareStats from '../../hooks/usebShareStats';
@@ -120,7 +120,7 @@ const Dashboard = () => {
       <BackgroundImage />
       <Grid container spacing={3}>
         {/* BOMB */}
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <Card>
             <CardContent align="center" style={{ position: 'relative' }}>
               <Button
@@ -155,7 +155,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* BSHARE */}
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <Card>
             <CardContent align="center" style={{ position: 'relative' }}>
               <Button
@@ -191,7 +191,7 @@ const Dashboard = () => {
         </Grid>
 
         {/* BBOND */}
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
           <Card>
             <CardContent align="center" style={{ position: 'relative' }}>
               <Button
@@ -218,6 +218,30 @@ const Dashboard = () => {
                 Market Cap: ${roundAndFormatNumber((tBondCirculatingSupply * tBondPriceInDollars).toFixed(2), 2)} <br />
                 Circulating Supply: {roundAndFormatNumber(tBondCirculatingSupply, 2)} <br />
                 Total Supply: {roundAndFormatNumber(tBondTotalSupply, 2)}
+              </span>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Card>
+            <CardContent align="center" style={{ position: 'relative' }}>
+              
+              <h2 style={{ marginBottom: '10px' }}>Epoch</h2>
+              Current Epoch
+              <Box>
+                <span style={{ fontSize: '30px', color: 'white' }}>
+                <Typography>{Number(currentEpoch)}</Typography>
+                </span>
+              </Box>
+              <Box>
+                <span style={{ fontSize: '16px', alignContent: 'flex-start' }}>
+                  ${bombPriceInDollars ? roundAndFormatNumber(bombPriceInDollars, 2) : '-.--'} / BOMB
+                </span>
+              </Box>
+              <span style={{ fontSize: '12px' }}>
+                Market Cap: ${roundAndFormatNumber(bombCirculatingSupply * bombPriceInDollars, 2)} <br />
+                Circulating Supply: {roundAndFormatNumber(bombCirculatingSupply, 2)} <br />
+                Total Supply: {roundAndFormatNumber(bombTotalSupply, 2)}
               </span>
             </CardContent>
           </Card>
