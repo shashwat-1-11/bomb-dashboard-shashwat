@@ -18,6 +18,15 @@ import useBondStats from '../../hooks/useBondStats';
 import useBombStats from '../../hooks/useBombStats';
 import CardIcon from '../../components/CardIcon';
 import TokenSymbol from '../../components/TokenSymbol';
+import useWithdrawCheck from '../../hooks/boardroom/useWithdrawCheck';
+import useClaimRewardCheck from '../../hooks/boardroom/useClaimRewardCheck';
+import useFetchBoardroomAPR from '../../hooks/useFetchBoardroomAPR';
+import useTotalStakedOnBoardroom from '../../hooks/useTotalStakedOnBoardroom';
+import useCashPriceInEstimatedTWAP from '../../hooks/useCashPriceInEstimatedTWAP';
+import useCurrentEpoch from '../../hooks/useCurrentEpoch';
+import useRedeemOnBoardroom from '../../hooks/useRedeemOnBoardroom';
+import useStakedBalanceOnBoardroom from '../../hooks/useStakedBalanceOnBoardroom';
+import { useWallet } from 'use-wallet';
 import { roundAndFormatNumber } from '../../0x';
 const TITLE = 'Bomb Dashoard';
 
@@ -92,6 +101,17 @@ const Dashboard = () => {
   const spinner = () => {
     setVideoLoading(!videoLoading);
   };
+
+  const { account } = useWallet();
+  const { onRedeem } = useRedeemOnBoardroom();
+  const stakedBalance = useStakedBalanceOnBoardroom();
+  const currentEpoch = useCurrentEpoch();
+  const cashStat = useCashPriceInEstimatedTWAP();
+  const totalStaked = useTotalStakedOnBoardroom();
+  const boardroomAPR = useFetchBoardroomAPR();
+  const canClaimReward = useClaimRewardCheck();
+  const canWithdraw = useWithdrawCheck();
+
   return (
     <Page>
       <Helmet>
@@ -204,7 +224,7 @@ const Dashboard = () => {
         </Grid>
         <Button
           href={investNowAddress}
-          style={{ margin: 'auto', padding: '10px 70px' }}
+          style={{ margin: '50px auto', padding: '10px 70px' }}
           target="_blank"
           className={'shinyButton ' + classes.button}
         >
@@ -221,12 +241,173 @@ const Dashboard = () => {
         </Button>
         <Button
           href={'https://docs.bomb.money/welcome-start-here/readme'}
-          style={{ margin: 'auto', padding: '10px 70px'}}
+          style={{ margin: 'auto', padding: '10px 70px' }}
           target="_blank"
           className={'shinyButton ' + classes.button}
         >
           Read Docs
         </Button>
+      </Grid>
+      <Grid container spacing={4}>
+        {/* BOMB */}
+        <Grid item xs={12} sm={4}>
+          <Card style={{ padding: '10px 0px 40px 0px' }}>
+            <CardContent align="center" style={{ position: 'relative' }}>
+              <h2 style={{ marginBottom: '10px' }}>Boardroom</h2>
+              <p>Stake BSHARE and earn BOMB every epoch</p>
+              <Box>
+                <span style={{ fontSize: '30px', color: 'white' }}>TVL = $1,008,430</span>
+              </Box>
+              <Box>
+                <span style={{ fontSize: '16px', alignContent: 'flex-start' }}>Total Staked = 7232</span>
+              </Box>
+              <span style={{ fontSize: '12px' }}>
+                Daily Returns: 2% <br />
+                Your Stake: 6.0000 ~ $1171.62
+                <br />
+                Earned: 1660.4413 ~ $298.88
+              </span>
+            </CardContent>
+            <Box mt={5}>
+              <Grid container justify="center" spacing={3} mt={10}>
+                <Button
+                style={{ margin: '20 px', padding: '10px 70px' }}
+                  onClick={() => {
+                    bombFinance.watchAssetInMetamask('BOMB');
+                  }}
+                  className={
+                    stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                      ? 'shinyButtonDisabledSecondary'
+                      : 'shinyButtonSecondary'
+                  }
+                >
+                  Deposit
+                </Button>
+              </Grid>
+            </Box>
+            {!!account && (
+              <Box mt={5}>
+                <Grid container justify="center" spacing={3} mt={10}>
+                  <Button
+                  style={{ margin: '20 px', padding: '10px 70px' }}
+                    onClick={onRedeem}
+                    className={
+                      stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                        ? 'shinyButtonDisabledSecondary'
+                        : 'shinyButtonSecondary'
+                    }
+                  >
+                    Claim &amp; Withdraw
+                  </Button>
+                </Grid>
+              </Box>
+            )}
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <Card style={{ padding: '10px 0px 40px 0px' }}>
+            <CardContent align="center" style={{ position: 'relative' }}>
+              <h2 style={{ marginBottom: '10px' }}>BOMB-BTCD</h2>
+              <p>Stake your LP Tokens in our farms to start earning $BSHARE</p>
+              <Box>
+                <span style={{ fontSize: '30px', color: 'white' }}>TVL = $1,008,430</span>
+              </Box>
+              <span style={{ fontSize: '12px' }}>
+                Daily Returns: 2% <br />
+                Your Stake: 124.21 ~ $1171.62
+                <br />
+                Earned: 6.4413 ~ $298.88
+              </span>
+            </CardContent>
+            <Box mt={5}>
+              <Grid container justify="center" spacing={3} mt={10}>
+                <Button
+                style={{ margin: '20 px', padding: '10px 70px' }}
+                  onClick={() => {
+                    bombFinance.watchAssetInMetamask('BSHARE');
+                  }}
+                  className={
+                    stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                      ? 'shinyButtonDisabledSecondary'
+                      : 'shinyButtonSecondary'
+                  }
+                >
+                  Deposit
+                </Button>
+              </Grid>
+            </Box>
+            {!!account && (
+              <Box mt={5}>
+                <Grid container justify="center" spacing={3} mt={10} >
+                  <Button
+                  style={{ margin: '20 px', padding: '10px 70px' }}
+                    onClick={onRedeem}
+                    className={
+                      stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                        ? 'shinyButtonDisabledSecondary'
+                        : 'shinyButtonSecondary'
+                    }
+                  >
+                    Claim &amp; Withdraw
+                  </Button>
+                </Grid>
+              </Box>
+            )}
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <Card style={{ padding: '10px 0px 40px 0px' }}>
+            <CardContent align="center" style={{ position: 'relative' }}>
+              <h2 style={{ marginBottom: '10px' }}>BSHARE-BNB</h2>
+              <p>Stake your LP Tokens in our farms to start earning $BSHARE</p>
+              <Box>
+                <span style={{ fontSize: '30px', color: 'white' }}>TVL = $1,008,430</span>
+              </Box>
+              <span style={{ fontSize: '12px' }}>
+                Daily Returns: 2% <br />
+                Your Stake: 124.21 ~ $1171.62
+                <br />
+                Earned: 6.4413 ~ $298.88
+              </span>
+            </CardContent>
+            <Box mt={5}>
+              <Grid container justify="center" spacing={3} mt={10}>
+                <Button
+                style={{ margin: '20 px', padding: '10px 70px' }}
+                  onClick={() => {
+                    bombFinance.watchAssetInMetamask('BSHARE');
+                  }}
+                  className={
+                    stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                      ? 'shinyButtonDisabledSecondary'
+                      : 'shinyButtonSecondary'
+                  }
+                >
+                  Deposit
+                </Button>
+              </Grid>
+            </Box>
+            {!!account && (
+              <Box mt={5}>
+                <Grid container justify="center" spacing={3} mt={10}>
+                  <Button
+                  style={{ margin: '20 px', padding: '10px 70px' }}
+                    onClick={onRedeem}
+                    className={
+                      stakedBalance.eq(0) || (!canWithdraw && !canClaimReward)
+                        ? 'shinyButtonDisabledSecondary'
+                        : 'shinyButtonSecondary'
+                    }
+                  >
+                    Claim &amp; Withdraw
+                  </Button>
+                </Grid>
+              </Box>
+            )}
+          </Card>
+        </Grid>
       </Grid>
     </Page>
   );
