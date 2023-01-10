@@ -5,7 +5,7 @@ export type Configuration = {
   chainId: ChainId;
   networkName: string;
   ftmscanUrl: string;
-  defaultProvider: 'bomb-dashboard-shashwat.netlify.app';
+  defaultProvider: string;
   deployments: Deployments;
   externalTokens: {[contractName: string]: [string, number]};
   config?: EthereumConfig;

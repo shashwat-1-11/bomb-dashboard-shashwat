@@ -18,6 +18,7 @@ import useBondStats from '../../hooks/useBondStats';
 import useBombStats from '../../hooks/useBombStats';
 import CardIcon from '../../components/CardIcon';
 import TokenSymbol from '../../components/TokenSymbol';
+import useTreasuryAllocationTimes from '../../hooks/useTreasuryAllocationTimes';
 import useWithdrawCheck from '../../hooks/boardroom/useWithdrawCheck';
 import useClaimRewardCheck from '../../hooks/boardroom/useClaimRewardCheck';
 import useFetchBoardroomAPR from '../../hooks/useFetchBoardroomAPR';
@@ -111,6 +112,8 @@ const Dashboard = () => {
   const boardroomAPR = useFetchBoardroomAPR();
   const canClaimReward = useClaimRewardCheck();
   const canWithdraw = useWithdrawCheck();
+  const { to } = useTreasuryAllocationTimes();
+
 
   return (
     <Page>
@@ -234,15 +237,15 @@ const Dashboard = () => {
                 </span>
               </Box>
               <Box>
-                <span style={{ fontSize: '16px', alignContent: 'flex-start' }}>
-                  ${bombPriceInDollars ? roundAndFormatNumber(bombPriceInDollars, 2) : '-.--'} / BOMB
+                <span style={{ fontSize: '26px', alignContent: 'flex-start' }}>
+                  Next Epoch:
                 </span>
               </Box>
-              <span style={{ fontSize: '12px' }}>
-                Market Cap: ${roundAndFormatNumber(bombCirculatingSupply * bombPriceInDollars, 2)} <br />
-                Circulating Supply: {roundAndFormatNumber(bombCirculatingSupply, 2)} <br />
-                Total Supply: {roundAndFormatNumber(bombTotalSupply, 2)}
-              </span>
+              <Box>
+              <span style={{ fontSize: '26px', alignContent: 'flex-start' }}>
+                  
+                </span>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
