@@ -8,11 +8,11 @@ import { createGlobalStyle } from 'styled-components';
 import HomeImage from '../../assets/img/background.jpg';
 import BombImage from '../../assets/img/bomb.png';
 import { makeStyles } from '@material-ui/core/styles';
-// import { Grid } from "react-feather";
-// import { Paper } from "@material-ui/core";
+import useBombFinance from '../../hooks/useBombFinance';
+import MetamaskFox from '../../assets/img/metamask-fox.svg';
 import { Box, Button, Card, CardContent, Grid, Paper } from '@material-ui/core';
-// import Button from "../../components/Button";
-import { Alert } from "@material-ui/lab";
+import CardIcon from '../../components/CardIcon';
+import TokenSymbol from '../../components/TokenSymbol';
 const TITLE = 'Bomb Dashoard';
 
 const BackgroundImage = createGlobalStyle`
@@ -35,6 +35,7 @@ const Dashboard = () => {
     const investNowAddress = '#';
     const [modal, setModal] = useState(false);
     const [videoLoading, setVideoLoading] = useState(true);
+    const bombFinance = useBombFinance();
 
     const openModal = () => {
         setModal(!modal);
@@ -55,6 +56,51 @@ const Dashboard = () => {
                         <Paper>
                             <Box p={4} style={{ textAlign: 'center' }}>
                             <h3>Bomb Finance Summary</h3>
+                            <Card>
+                                <CardContent align="center" style={{ position: 'relative' }}>
+                                    <h5>$BOMB</h5>
+                                    <Button
+                                        onClick={() => {
+                                        bombFinance.watchAssetInMetamask('BOMB');
+                                        }}
+                                        style={{ position: 'absolute', top: '10px', right: '10px', border: '1px grey solid' }}
+                                    >
+                                        {' '}
+                                        <b>+</b>&nbsp;&nbsp;
+                                        <img alt="metamask fox" style={{ width: '20px', filter: 'grayscale(100%)' }} src={MetamaskFox} />
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardContent align="center" style={{ position: 'relative' }}>
+                                    <h5>$BSHARE</h5>
+                                    <Button
+                                        onClick={() => {
+                                            bombFinance.watchAssetInMetamask('BSHARE');
+                                        }}
+                                        style={{ position: 'absolute', top: '10px', right: '10px', border: '1px grey solid' }}
+                                    >
+                                        {' '}
+                                        <b>+</b>&nbsp;&nbsp;
+                                        <img alt="metamask fox" style={{ width: '20px', filter: 'grayscale(100%)' }} src={MetamaskFox} />
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardContent align="center" style={{ position: 'relative' }}>
+                                    <h5>$BBOND</h5>
+                                    <Button
+                                        onClick={() => {
+                                            bombFinance.watchAssetInMetamask('BBOND');
+                                        }}
+                                        style={{ position: 'absolute', top: '10px', right: '10px', border: '1px grey solid' }}
+                                    >
+                                        {' '}
+                                        <b>+</b>&nbsp;&nbsp;
+                                        <img alt="metamask fox" style={{ width: '20px', filter: 'grayscale(100%)' }} src={MetamaskFox} />
+                                    </Button>
+                                </CardContent>
+                            </Card>
                             </Box>
                         </Paper>
                     </Grid>
